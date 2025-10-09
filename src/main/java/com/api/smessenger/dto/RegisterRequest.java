@@ -1,10 +1,10 @@
 package com.api.smessenger.dto;
 
-public class RegisterReq {
+public class RegisterRequest {
   private String username;
   // private String passwd;
 
-  public RegisterReq(String username) {
+  public RegisterRequest(String username) {
     this.username = username;
   }
 
