@@ -3,9 +3,10 @@
 ## Architecture
 ```mermaid
 flowchart TD
-    A[Client] <--> F[DTO]
-    F <--> B[Controller]
-    B --> C[Service]
-    C --> D[Repository]
-    D --> E[Model]
+  A["Client"] <--> F["DTO (Data transfer objects)"]
+  F <--> B["Controller (HTTP req/resp)"]
+  B --> C["Service (Business logic)"]
+  C --> D["Repository (Data access)"]
+  D --> E["Model (Core business objects)"]
+  D --> DB["Database server"]
 ```
