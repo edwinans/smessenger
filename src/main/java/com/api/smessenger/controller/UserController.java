@@ -3,7 +3,10 @@ package com.api.smessenger.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.smessenger.dto.BaseResponse;
+import com.api.smessenger.dto.DataResponse;
+import com.api.smessenger.dto.LoginRequest;
 import com.api.smessenger.dto.RegisterRequest;
+import com.api.smessenger.dto.UserDTO;
 import com.api.smessenger.service.UserService;
 
 import org.springframework.http.HttpStatus;
@@ -34,6 +37,24 @@ public class UserController {
       status = HttpStatus.CREATED; // 201
     } else {
       response = new BaseResponse("Username '" + req.getUsername() + "' is already taken!");
+      status = HttpStatus.CONFLICT; // 409
+    }
+
+    return new ResponseEntity<>(response, status);
+  }
+
+  @PostMapping("/login")
+  public ResponseEntity<BaseResponse> login(@RequestBody LoginRequest req) {
+    var res = userService.loginUser(req.getUsername());
+
+    BaseResponse response;
+    HttpStatus status;
+
+    if (res.isRight()) {
+      response = new DataResponse<UserDTO>("", res.get());
+      status = HttpStatus.OK;
+    } else {
+      response = new BaseResponse(res.getLeft());
       status = HttpStatus.CONFLICT; // 409
     }
 
