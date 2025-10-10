@@ -2,10 +2,11 @@ package com.smessenger.api.dto;
 
 public class RegisterRequest {
   private String username;
-  // private String passwd;
+  private String password;
 
-  public RegisterRequest(String username) {
+  public RegisterRequest(String username, String password) {
     this.username = username;
+    this.password = password;
   }
 
   public String getUsername() {
@@ -14,5 +15,13 @@ public class RegisterRequest {
 
   public void setUsername(String username) {
     this.username = username;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
 }

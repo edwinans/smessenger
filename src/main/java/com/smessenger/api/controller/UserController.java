@@ -24,7 +24,7 @@ public class UserController {
 
   @PostMapping("/register")
   public ResponseEntity<BaseResponse> register(@RequestBody RegisterRequest req) {
-    boolean success = userService.registerUser(req.getUsername());
+    boolean success = userService.registerUser(req.getUsername(), req.getPassword());
 
     BaseResponse response;
     HttpStatus status;
@@ -42,9 +42,8 @@ public class UserController {
 
   @PostMapping("/login")
   public ResponseEntity<BaseResponse> login(@RequestBody LoginRequest req) {
-    var userOpt = userService.loginUser(req.getUsername());
+    var userOpt = userService.loginUser(req.getUsername(), req.getPassword());
     if (userOpt.isPresent()) {
-      // Password check will be added after password field is implemented
       return ResponseEntity.ok(new DataResponse<>("Login successful!", userOpt.get()));
     } else {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED)

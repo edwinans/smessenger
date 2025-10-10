@@ -17,11 +17,15 @@ public class User {
   @Column(unique = true, nullable = false)
   private String username;
 
+  @Column(nullable = false)
+  private String password;
+
   protected User() {
   } // for JPA
 
-  public User(String username) {
+  public User(String username, String password) {
     this.username = username;
+    this.password = password;
   }
 
   public Long getId() {
@@ -30,5 +34,9 @@ public class User {
 
   public String getUsername() {
     return username;
+  }
+
+  public String getPassword() {
+    return password;
   }
 }
