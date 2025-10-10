@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.smessenger.api.dto.BaseResponse;
 import com.smessenger.api.dto.RegisterRequest;
+import com.smessenger.api.dto.LoginRequest;
+import com.smessenger.api.dto.DataResponse;
 import com.smessenger.api.service.UserService;
 
 import org.springframework.http.HttpStatus;
@@ -29,13 +31,25 @@ public class UserController {
 
     if (success) {
       response = new BaseResponse("User '" + req.getUsername() + "' registered successfully!");
-      status = HttpStatus.CREATED; // 201
+      status = HttpStatus.CREATED;
     } else {
       response = new BaseResponse("Username '" + req.getUsername() + "' is already taken!");
-      status = HttpStatus.CONFLICT; // 409
+      status = HttpStatus.CONFLICT;
     }
 
     return new ResponseEntity<>(response, status);
+  }
+
+  @PostMapping("/login")
+  public ResponseEntity<BaseResponse> login(@RequestBody LoginRequest req) {
+    var userOpt = userService.loginUser(req.getUsername());
+    if (userOpt.isPresent()) {
+      // Password check will be added after password field is implemented
+      return ResponseEntity.ok(new DataResponse<>("Login successful!", userOpt.get()));
+    } else {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+          .body(new BaseResponse("Invalid username or password."));
+    }
   }
 
 }
