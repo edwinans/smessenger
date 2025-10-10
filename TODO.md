@@ -4,7 +4,9 @@
 - [ ] JWT authentification
 - [ ] Extend `PagingAndSortingRepository` in repository
 - [ ] Model: Use @Id, @GeneratedValue, @Column?
-- [ ] Exception mapping
+- [ ] Error handling using Exception mapping
+- [ ] Swagger documentation
+- [ ] Postman collection
 
 ## Implementation Path
 
