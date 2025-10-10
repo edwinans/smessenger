@@ -1,4 +1,6 @@
-package com.api.smessenger.dto;
+package com.smessenger.api.dto;
+
+// TODO: convert to Java record
 
 public class UserDTO {
   private String username;

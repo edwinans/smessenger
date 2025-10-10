@@ -1,10 +1,10 @@
-package com.api.smessenger.dto;
+package com.smessenger.api.dto;
 
-public class LoginRequest {
-
+public class RegisterRequest {
   private String username;
+  // private String passwd;
 
-  public LoginRequest(String username) {
+  public RegisterRequest(String username) {
     this.username = username;
   }
 

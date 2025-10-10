@@ -1,13 +1,13 @@
-package com.api.smessenger.controller;
+package com.smessenger.api.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.api.smessenger.dto.BaseResponse;
-import com.api.smessenger.dto.DataResponse;
-import com.api.smessenger.dto.LoginRequest;
-import com.api.smessenger.dto.RegisterRequest;
-import com.api.smessenger.dto.UserDTO;
-import com.api.smessenger.service.UserService;
+import com.smessenger.api.dto.BaseResponse;
+import com.smessenger.api.dto.DataResponse;
+import com.smessenger.api.dto.LoginRequest;
+import com.smessenger.api.dto.RegisterRequest;
+import com.smessenger.api.dto.UserDTO;
+import com.smessenger.api.service.UserService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

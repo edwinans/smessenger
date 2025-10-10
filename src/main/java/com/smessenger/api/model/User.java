@@ -1,4 +1,4 @@
-package com.api.smessenger.model;
+package com.smessenger.api.model;
 
 public class User {
   private String username;

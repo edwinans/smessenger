@@ -1,4 +1,4 @@
-package com.api.smessenger.dto;
+package com.smessenger.api.dto;
 
 public class BaseResponse {
   private String msg;

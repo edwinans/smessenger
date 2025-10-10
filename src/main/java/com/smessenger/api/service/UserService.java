@@ -1,4 +1,4 @@
-package com.api.smessenger.service;
+package com.smessenger.api.service;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.stereotype.Service;
 
-import com.api.smessenger.dto.UserDTO;
+import com.smessenger.api.dto.UserDTO;
 
 import io.vavr.control.Either;
 
