@@ -1,9 +1,10 @@
 # TODO
 
+- [x] H2 in-memory DB
 - [ ] PG DB backend
 - [ ] JWT authentification
 - [ ] Extend `PagingAndSortingRepository` in repository
-- [ ] Model: Use @Id, @GeneratedValue, @Column?
+- [x] Model: Use @Id, @GeneratedValue, @Columns
 - [ ] Error handling using Exception mapping
 - [ ] Swagger documentation
 - [ ] Postman collection
