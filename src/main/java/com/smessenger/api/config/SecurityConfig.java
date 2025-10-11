@@ -19,10 +19,11 @@ public class SecurityConfig {
     http
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/login", "/register").permitAll()
+            .requestMatchers("/login", "/register", "/h2-console/**").permitAll()
             .anyRequest().authenticated())
         .formLogin(form -> form.disable())
-        .httpBasic(basic -> basic.disable());
+        .httpBasic(basic -> basic.disable())
+        .headers(headers -> headers.frameOptions(frame -> frame.disable()));
     return http.build();
   }
 }
