@@ -4,12 +4,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.smessenger.api.dto.BaseResponse;
 import com.smessenger.api.dto.RegisterRequest;
+import com.smessenger.api.model.User;
 import com.smessenger.api.dto.LoginRequest;
 import com.smessenger.api.dto.DataResponse;
 import com.smessenger.api.service.UserService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -49,6 +51,13 @@ public class UserController {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
           .body(new BaseResponse("Invalid username or password."));
     }
+
+  }
+
+  @GetMapping("list_users")
+  public Iterable<User> listUsers() {
+    var users = userService.listAllUsers();
+    return users;
   }
 
 }
