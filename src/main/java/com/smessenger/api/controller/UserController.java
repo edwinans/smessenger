@@ -2,11 +2,12 @@ package com.smessenger.api.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.smessenger.api.dto.BaseResponse;
-import com.smessenger.api.dto.RegisterRequest;
-import com.smessenger.api.model.User;
+import com.smessenger.api.dto.ApiResponse;
 import com.smessenger.api.dto.LoginRequest;
-import com.smessenger.api.dto.DataResponse;
+import com.smessenger.api.dto.RegisterRequest;
+import com.smessenger.api.dto.TokenDTO;
+import com.smessenger.api.model.User;
+import com.smessenger.api.util.JwtUtil;
 import com.smessenger.api.service.UserService;
 
 import org.springframework.http.HttpStatus;
@@ -25,39 +26,33 @@ public class UserController {
   }
 
   @PostMapping("/register")
-  public ResponseEntity<BaseResponse> register(@RequestBody RegisterRequest req) {
-    boolean success = userService.registerUser(req.getUsername(), req.getPassword());
-
-    BaseResponse response;
-    HttpStatus status;
-
+  public ResponseEntity<ApiResponse<Void>> register(@RequestBody RegisterRequest req) {
+    boolean success = userService.registerUser(req.username(), req.password());
     if (success) {
-      response = new BaseResponse("User '" + req.getUsername() + "' registered successfully!");
-      status = HttpStatus.CREATED;
+      return ResponseEntity.status(HttpStatus.CREATED)
+          .body(new ApiResponse<>(true, null, null));
     } else {
-      response = new BaseResponse("Username '" + req.getUsername() + "' is already taken!");
-      status = HttpStatus.CONFLICT;
+      return ResponseEntity.status(HttpStatus.CONFLICT)
+          .body(new ApiResponse<>(false, null, "Username is already taken"));
     }
-
-    return new ResponseEntity<>(response, status);
   }
 
   @PostMapping("/login")
-  public ResponseEntity<BaseResponse> login(@RequestBody LoginRequest req) {
-    var userOpt = userService.loginUser(req.getUsername(), req.getPassword());
+  public ResponseEntity<ApiResponse<TokenDTO>> login(@RequestBody LoginRequest req) {
+    var userOpt = userService.loginUser(req.username(), req.password());
     if (userOpt.isPresent()) {
-      return ResponseEntity.ok(new DataResponse<>("Login successful!", userOpt.get()));
+      String token = JwtUtil.generateToken(req.username());
+      return ResponseEntity.ok(new ApiResponse<>(true, new TokenDTO(token), null));
     } else {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-          .body(new BaseResponse("Invalid username or password."));
+          .body(new ApiResponse<>(false, null, "Invalid username or password"));
     }
-
   }
 
   @GetMapping("list_users")
-  public Iterable<User> listUsers() {
+  public ResponseEntity<ApiResponse<Iterable<User>>> listUsers() {
     var users = userService.listAllUsers();
-    return users;
+    return ResponseEntity.ok(new ApiResponse<>(true, users, null));
   }
 
 }
