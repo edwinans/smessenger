@@ -9,6 +9,7 @@
 - [ ] Error handling using Exception mapping
 - [ ] Swagger documentation
 - [ ] Postman collection
+- [ ] Remove "success" field
 
 ## Implementation Path
 
