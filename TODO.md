@@ -6,10 +6,9 @@
   - [ ] Implement refresh token
 - [x] Extend ~~`PagingAndSortingRepository`~~ (`JpaRepository`) in repository
 - [x] Model: Use @Id, @GeneratedValue, @Columns
-- [ ] Error handling using Exception mapping
+- [x] Error handling using Exception mapping
 - [ ] Swagger documentation
 - [ ] Postman collection
-- [ ] Remove "success" field
 
 ## Implementation Path
 
@@ -27,4 +26,5 @@
    1. Setup jwt token infra
    2. Establish jwt token when login with password
    3. Implement filter middleware to grant access to services using jwt token
-4. Implement send/receive messages services
+4. Implement global exception handling and default errors mapping
+5. Implement send/receive messages services
