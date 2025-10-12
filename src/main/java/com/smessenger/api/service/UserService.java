@@ -2,11 +2,15 @@ package com.smessenger.api.service;
 
 import java.util.Optional;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.smessenger.api.model.User;
 import com.smessenger.api.repository.UserRepository;
+import com.smessenger.api.exception.UsernameAlreadyExistsException;
+import com.smessenger.api.exception.AuthenticationFailedException;
+import com.smessenger.api.util.JwtUtil;
 
 @Service
 public class UserService {
@@ -18,27 +22,30 @@ public class UserService {
     this.passwordEncoder = passwordEncoder;
   }
 
-  public boolean registerUser(String username, String rawPassword) {
+  public User registerUser(String username, String rawPassword) {
     if (userRepository.existsByUsername(username))
-      return false;
+      throw new UsernameAlreadyExistsException();
     String hashedPassword = passwordEncoder.encode(rawPassword);
-    userRepository.save(new User(username, hashedPassword));
-    return true;
+    try {
+      return userRepository.save(new User(username, hashedPassword));
+    } catch (DataIntegrityViolationException ex) {
+      throw new UsernameAlreadyExistsException();
+    }
   }
 
-  public Optional<User> loginUser(String username, String rawPassword) {
+  public User loginUser(String username, String rawPassword) {
     Optional<User> userOpt = userRepository.findByUsername(username);
-    if (userOpt.isPresent()) {
-      User user = userOpt.get();
-      if (passwordEncoder.matches(rawPassword, user.getPassword())) {
-        return Optional.of(user);
-      }
-    }
-    return Optional.empty();
+    return userOpt.filter(user -> passwordEncoder.matches(rawPassword, user.getPassword()))
+        .orElseThrow(() -> new AuthenticationFailedException());
   }
 
   public Iterable<User> listAllUsers() {
     return userRepository.findAll();
+  }
+
+  public String authenticateAndGetToken(String username, String rawPassword) {
+    User user = loginUser(username, rawPassword);
+    return JwtUtil.generateToken(user.getUsername());
   }
 
 }
