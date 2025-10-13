@@ -12,6 +12,12 @@
 - [ ] Swagger documentation
 - [ ] Postman collection
 
+## Evolutions
+
+- [ ] Unit testing
+- [ ] Return complete chat between two users
+- [ ] Return total count for messages
+
 ## Implementation Path
 
 1. Working simple use case MVC
