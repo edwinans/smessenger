@@ -41,7 +41,7 @@ public class MessageController {
       @RequestHeader(name = "Authorization", required = false) String authorization,
       @PathVariable String senderUsername,
       @RequestParam(name = "before_id", required = false) Long beforeId,
-      @RequestParam(name = "limit", required = false, defaultValue = "50") int limit) {
+      @RequestParam(name = "limit", required = false, defaultValue = "5") int limit) {
     List<MessageDTO> msgs = messageService.getRecentFromSender(authorization, senderUsername, beforeId, limit);
     return ResponseEntity.ok(new ApiResponse<>(msgs, null));
   }
