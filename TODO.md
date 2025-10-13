@@ -7,7 +7,7 @@
 - [x] Extend ~~`PagingAndSortingRepository`~~ (`JpaRepository`) in repository
 - [x] Model: Use @Id, @GeneratedValue, @Columns
 - [x] Error handling using Exception mapping
-- [ ] Request schema validation
+- [x] Request schema validation
 - [ ] Document how to run
 - [ ] Swagger documentation
 - [ ] Postman collection
