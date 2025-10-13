@@ -10,7 +10,8 @@ import javax.crypto.SecretKey;
 
 public class JwtUtil {
     // Use a base64-encoded secret key (should be moved to config in production)
-    private static final String SECRET = "ZmFrZXNlY3JldGtleWZvcmRldmVsb3BtZW50c2VjdXJpdHk="; // base64 for 'fakesecretkeyfordevelopmentsecurity'
+    private static final String SECRET = "ZmFrZXNlY3JldGtleWZvcmRldmVsb3BtZW50c2VjdXJpdHk="; // base64 for
+                                                                                             // 'fakesecretkeyfordevelopmentsecurity'
     private static final SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET));
     private static final long EXPIRATION_MS = 86400000; // 1 day
 
@@ -27,6 +28,13 @@ public class JwtUtil {
 
     public static String extractUsername(String token) {
         return getClaims(token).getPayload().getSubject();
+    }
+
+    public static String extractUsernameFromAuthorizationHeader(String authorization) {
+        if (authorization == null)
+            throw new IllegalArgumentException("Missing Authorization header");
+        String token = authorization.startsWith("Bearer ") ? authorization.substring(7) : authorization;
+        return extractUsername(token);
     }
 
     public static boolean validateToken(String token, String username) {
