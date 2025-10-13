@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.validation.FieldError;
+
 import com.smessenger.api.exception.AuthenticationFailedException;
 import com.smessenger.api.exception.CustomException;
 import com.smessenger.api.exception.UsernameAlreadyExistsException;
@@ -32,10 +34,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
       org.springframework.http.HttpStatusCode status, WebRequest request) {
     Map<String, String> errors = new HashMap<>();
-    ex.getBindingResult().getFieldErrors().forEach(err -> errors.put(err.getField(), err.getDefaultMessage()));
-    // include a short summary and let clients call validation endpoints for details
+    ex.getBindingResult().getAllErrors().forEach((error) -> {
+      String fieldName = ((FieldError) error).getField();
+      String errorMessage = error.getDefaultMessage();
+      errors.put(fieldName, errorMessage);
+    });
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(new ErrorResponse("VALIDATION_FAILED", "Validation failed"));
+        .body(new ErrorResponse(
+            "VALIDATION_FAILED",
+            "Validation failed: " + errors.values().toString()));
   }
 
   @ExceptionHandler(AccessDeniedException.class)

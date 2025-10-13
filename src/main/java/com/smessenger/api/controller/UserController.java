@@ -10,6 +10,8 @@ import com.smessenger.api.model.User;
 import com.smessenger.api.exception.CustomException;
 import com.smessenger.api.service.UserService;
 
+import jakarta.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +28,7 @@ public class UserController {
   }
 
   @PostMapping("/register")
-  public ResponseEntity<UserDTO> register(@RequestBody RegisterRequest req) {
+  public ResponseEntity<UserDTO> register(@Valid @RequestBody RegisterRequest req) {
     UserDTO createdUser = userService.registerUser(req.username(), req.password());
     return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
   }
