@@ -10,17 +10,18 @@ import java.util.List;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
-  // Get recent messages from a sender to a receiver, ordered descending by
-  // createdAt
-  @Query("SELECT m FROM Message m WHERE m.senderId = :senderId AND m.receiverId = :receiverId ORDER BY m.createdAt DESC")
-  List<Message> findRecentBetween(@Param("senderId") Long senderId,
-      @Param("receiverId") Long receiverId,
-      Pageable pageable);
+    // Get recent messages from a sender to a receiver, ordered descending by
+    // createdAt
+    @Query("SELECT m FROM Message m WHERE m.senderId = :senderId AND m.receiverId = :receiverId ORDER BY m.createdAt DESC")
+    List<Message> findRecentBetween(@Param("senderId") Long senderId,
+            @Param("receiverId") Long receiverId,
+            Pageable pageable);
 
-  // Get messages from sender->receiver with id greater than given id (assumes
-  // monotonic ids)
-  @Query("SELECT m FROM Message m WHERE m.senderId = :senderId AND m.receiverId = :receiverId AND m.id > :sinceId ORDER BY m.id ASC")
-  List<Message> findSinceId(@Param("senderId") Long senderId,
-      @Param("receiverId") Long receiverId,
-      @Param("sinceId") Long sinceId);
+    // Get messages from sender->receiver with id less than given beforeId (cursor),
+    // newest-first
+    @Query("SELECT m FROM Message m WHERE m.senderId = :senderId AND m.receiverId = :receiverId AND m.id < :beforeId ORDER BY m.id DESC")
+    List<Message> findRecentBetweenBefore(@Param("senderId") Long senderId,
+            @Param("receiverId") Long receiverId,
+            @Param("beforeId") Long beforeId,
+            Pageable pageable);
 }

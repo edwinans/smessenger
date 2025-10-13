@@ -9,6 +9,7 @@ import com.smessenger.api.model.Message;
 import com.smessenger.api.model.User;
 import com.smessenger.api.repository.MessageRepository;
 import com.smessenger.api.repository.UserRepository;
+import com.smessenger.api.dto.MessageDTO;
 
 @Service
 public class MessageService {
@@ -29,33 +30,34 @@ public class MessageService {
     return messageRepository.save(m);
   }
 
-  public Message sendMessageFromAuth(String authorizationHeader, Long receiverId, String text) {
-    String username = com.smessenger.api.util.JwtUtil.extractUsernameFromAuthorizationHeader(authorizationHeader);
-    User sender = userRepository.findByUsername(username)
+  public Message sendMessageByUsername(String authorizationHeader, String receiverUsername, String text) {
+    String senderUsername = com.smessenger.api.util.JwtUtil.extractUsernameFromAuthorizationHeader(authorizationHeader);
+    User sender = userRepository.findByUsername(senderUsername)
         .orElseThrow(() -> new IllegalArgumentException("sender not found"));
-    return sendMessage(sender.getId(), receiverId, text);
-  }
-
-  public List<Message> getRecent(Long senderId, Long receiverId, int count) {
-    var pageable = PageRequest.of(0, Math.max(1, count));
-    return messageRepository.findRecentBetween(senderId, receiverId, pageable);
-  }
-
-  public List<Message> getRecentForReceiverAuth(String authorizationHeader, Long senderId, int count) {
-    String username = com.smessenger.api.util.JwtUtil.extractUsernameFromAuthorizationHeader(authorizationHeader);
-    User receiver = userRepository.findByUsername(username)
+    User receiver = userRepository.findByUsername(receiverUsername)
         .orElseThrow(() -> new IllegalArgumentException("receiver not found"));
-    return getRecent(senderId, receiver.getId(), count);
+    Message saved = sendMessage(sender.getId(), receiver.getId(), text);
+    return saved;
   }
 
-  public List<Message> getSinceId(Long senderId, Long receiverId, Long sinceId) {
-    return messageRepository.findSinceId(senderId, receiverId, sinceId);
-  }
-
-  public List<Message> getSinceForReceiverAuth(String authorizationHeader, Long senderId, Long sinceId) {
-    String username = com.smessenger.api.util.JwtUtil.extractUsernameFromAuthorizationHeader(authorizationHeader);
-    User receiver = userRepository.findByUsername(username)
+  public List<MessageDTO> getRecentFromSender(String authorizationHeader, String senderUsername, Long beforeId,
+      int limit) {
+    User sender = userRepository.findByUsername(senderUsername)
+        .orElseThrow(() -> new IllegalArgumentException("sender not found"));
+    String receiverUsername = com.smessenger.api.util.JwtUtil
+        .extractUsernameFromAuthorizationHeader(authorizationHeader);
+    User receiver = userRepository.findByUsername(receiverUsername)
         .orElseThrow(() -> new IllegalArgumentException("receiver not found"));
-    return getSinceId(senderId, receiver.getId(), sinceId);
+    var pageable = PageRequest.of(0, Math.max(1, limit));
+    List<Message> rows;
+    if (beforeId == null) {
+      rows = messageRepository.findRecentBetween(sender.getId(), receiver.getId(), pageable);
+    } else {
+      rows = messageRepository.findRecentBetweenBefore(sender.getId(), receiver.getId(), beforeId, pageable);
+    }
+    return rows.stream()
+        .map(
+            m -> new MessageDTO(m.getId(), m.getCreatedAt(), sender.getUsername(), receiver.getUsername(), m.getText()))
+        .toList();
   }
 }
