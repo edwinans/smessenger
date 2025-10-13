@@ -27,4 +27,6 @@
    2. Establish jwt token when login with password
    3. Implement filter middleware to grant access to services using jwt token
 4. Implement global exception handling and default errors mapping
-5. Implement send/receive messages services
+5. Implement send messages model and services
+6. Implement get messages model and services
+7. Integrate a dockerized DB
