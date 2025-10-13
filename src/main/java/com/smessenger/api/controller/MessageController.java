@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.smessenger.api.dto.ApiResponse;
 import com.smessenger.api.dto.SendMessageRequest;
 import com.smessenger.api.dto.MessageDTO;
 import com.smessenger.api.service.MessageService;
@@ -28,22 +27,22 @@ public class MessageController {
 
   // POST /messages { receiver_username, text } (sender from Authorization)
   @PostMapping("/messages")
-  public ResponseEntity<ApiResponse<Void>> sendMessageJson(
+  public ResponseEntity<MessageDTO> sendMessage(
       @RequestHeader(name = "Authorization", required = false) String authorization,
       @RequestBody SendMessageRequest req) {
-    messageService.sendMessageByUsername(authorization, req.receiverUsername(), req.text());
-    return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(null, null));
+    MessageDTO created = messageService.sendMessageByUsername(authorization, req.receiverUsername(), req.text());
+    return ResponseEntity.status(HttpStatus.CREATED).body(created);
   }
 
   // GET /messages/from/{senderUsername}?before_id=&limit=
   @GetMapping("/messages/from/{senderUsername}")
-  public ResponseEntity<ApiResponse<List<MessageDTO>>> getRecentFromSender(
+  public ResponseEntity<List<MessageDTO>> getRecentFromSender(
       @RequestHeader(name = "Authorization", required = false) String authorization,
       @PathVariable String senderUsername,
       @RequestParam(name = "before_id", required = false) Long beforeId,
       @RequestParam(name = "limit", required = false, defaultValue = "5") int limit) {
     List<MessageDTO> msgs = messageService.getRecentFromSender(authorization, senderUsername, beforeId, limit);
-    return ResponseEntity.ok(new ApiResponse<>(msgs, null));
+    return ResponseEntity.ok(msgs);
   }
 
 }

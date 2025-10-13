@@ -30,14 +30,22 @@ public class MessageService {
     return messageRepository.save(m);
   }
 
-  public Message sendMessageByUsername(String authorizationHeader, String receiverUsername, String text) {
+  private MessageDTO toDto(Message m) {
+    User sender = userRepository.findById(m.getSenderId())
+        .orElseThrow(() -> new IllegalArgumentException("sender not found"));
+    User receiver = userRepository.findById(m.getReceiverId())
+        .orElseThrow(() -> new IllegalArgumentException("receiver not found"));
+    return new MessageDTO(m.getId(), m.getCreatedAt(), sender.getUsername(), receiver.getUsername(), m.getText());
+  }
+
+  public MessageDTO sendMessageByUsername(String authorizationHeader, String receiverUsername, String text) {
     String senderUsername = com.smessenger.api.util.JwtUtil.extractUsernameFromAuthorizationHeader(authorizationHeader);
     User sender = userRepository.findByUsername(senderUsername)
         .orElseThrow(() -> new IllegalArgumentException("sender not found"));
     User receiver = userRepository.findByUsername(receiverUsername)
         .orElseThrow(() -> new IllegalArgumentException("receiver not found"));
     Message saved = sendMessage(sender.getId(), receiver.getId(), text);
-    return saved;
+    return toDto(saved);
   }
 
   public List<MessageDTO> getRecentFromSender(String authorizationHeader, String senderUsername, Long beforeId,
@@ -55,9 +63,6 @@ public class MessageService {
     } else {
       rows = messageRepository.findRecentBetweenBefore(sender.getId(), receiver.getId(), beforeId, pageable);
     }
-    return rows.stream()
-        .map(
-            m -> new MessageDTO(m.getId(), m.getCreatedAt(), sender.getUsername(), receiver.getUsername(), m.getText()))
-        .toList();
+    return rows.stream().map(this::toDto).toList();
   }
 }

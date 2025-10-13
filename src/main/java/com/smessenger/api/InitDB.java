@@ -25,7 +25,7 @@ public class InitDB {
       var u2 = userService.registerUser("user2", "pass");
 
       for (int i = 1; i <= 20; i++)
-        messageService.sendMessage(u2.getId(), u1.getId(),
+        messageService.sendMessage(u2.id(), u1.id(),
             String.format("Hello (%d) from user2 to user1", i));
 
       log.info("User 'user1' and 'user2' registered");

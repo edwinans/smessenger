@@ -2,10 +2,10 @@ package com.smessenger.api.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.smessenger.api.dto.ApiResponse;
 import com.smessenger.api.dto.LoginRequest;
 import com.smessenger.api.dto.RegisterRequest;
 import com.smessenger.api.dto.TokenDTO;
+import com.smessenger.api.dto.UserDTO;
 import com.smessenger.api.model.User;
 import com.smessenger.api.exception.CustomException;
 import com.smessenger.api.service.UserService;
@@ -26,21 +26,21 @@ public class UserController {
   }
 
   @PostMapping("/register")
-  public ResponseEntity<ApiResponse<Void>> register(@RequestBody RegisterRequest req) {
-    userService.registerUser(req.username(), req.password());
-    return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<Void>(null, null));
+  public ResponseEntity<UserDTO> register(@RequestBody RegisterRequest req) {
+    UserDTO createdUser = userService.registerUser(req.username(), req.password());
+    return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
   }
 
   @PostMapping("/login")
-  public ResponseEntity<ApiResponse<TokenDTO>> login(@RequestBody LoginRequest req) {
+  public ResponseEntity<TokenDTO> login(@RequestBody LoginRequest req) {
     String token = userService.authenticateAndGetToken(req.username(), req.password());
-    return ResponseEntity.ok(new ApiResponse<TokenDTO>(new TokenDTO(token), null));
+    return ResponseEntity.ok((new TokenDTO(token)));
   }
 
   @GetMapping("/list_users")
-  public ResponseEntity<ApiResponse<Iterable<User>>> listUsers() {
+  public ResponseEntity<Iterable<User>> listUsers() {
     var users = userService.listAllUsers();
-    return ResponseEntity.ok(new ApiResponse<Iterable<User>>(users, null));
+    return ResponseEntity.ok(users);
   }
 
   @GetMapping("/test_exp")

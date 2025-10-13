@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.smessenger.api.model.User;
 import com.smessenger.api.repository.UserRepository;
 import com.smessenger.api.exception.UsernameAlreadyExistsException;
+import com.smessenger.api.dto.UserDTO;
 import com.smessenger.api.exception.AuthenticationFailedException;
 import com.smessenger.api.util.JwtUtil;
 
@@ -22,12 +23,17 @@ public class UserService {
     this.passwordEncoder = passwordEncoder;
   }
 
-  public User registerUser(String username, String rawPassword) {
+  private UserDTO toDto(User user) {
+    return new UserDTO(user.getId(), user.getUsername());
+  }
+
+  public UserDTO registerUser(String username, String rawPassword) {
     if (userRepository.existsByUsername(username))
       throw new UsernameAlreadyExistsException();
     String hashedPassword = passwordEncoder.encode(rawPassword);
     try {
-      return userRepository.save(new User(username, hashedPassword));
+      User createdUser = userRepository.save(new User(username, hashedPassword));
+      return toDto(createdUser);
     } catch (DataIntegrityViolationException ex) {
       throw new UsernameAlreadyExistsException();
     }
