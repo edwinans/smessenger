@@ -45,8 +45,8 @@ public class UserService {
         .orElseThrow(() -> new AuthenticationFailedException());
   }
 
-  public Iterable<User> listAllUsers() {
-    return userRepository.findAll();
+  public Iterable<UserDTO> listAllUsers() {
+    return userRepository.findAll().stream().map(this::toDto).toList();
   }
 
   public String authenticateAndGetToken(String username, String rawPassword) {

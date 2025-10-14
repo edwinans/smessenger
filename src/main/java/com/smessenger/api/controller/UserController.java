@@ -6,7 +6,6 @@ import com.smessenger.api.dto.LoginRequest;
 import com.smessenger.api.dto.RegisterRequest;
 import com.smessenger.api.dto.TokenDTO;
 import com.smessenger.api.dto.UserDTO;
-import com.smessenger.api.model.User;
 import com.smessenger.api.exception.CustomException;
 import com.smessenger.api.service.UserService;
 
@@ -40,7 +39,7 @@ public class UserController {
   }
 
   @GetMapping("/list_users")
-  public ResponseEntity<Iterable<User>> listUsers() {
+  public ResponseEntity<Iterable<UserDTO>> listUsers() {
     var users = userService.listAllUsers();
     return ResponseEntity.ok(users);
   }

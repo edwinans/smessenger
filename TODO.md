@@ -3,7 +3,6 @@
 - [x] H2 in-memory DB
 - [ ] PG DB backend
 - [x] JWT authentification
-  - [ ] Implement refresh token
 - [x] Extend ~~`PagingAndSortingRepository`~~ (`JpaRepository`) in repository
 - [x] Model: Use @Id, @GeneratedValue, @Columns
 - [x] Error handling using Exception mapping
@@ -17,6 +16,7 @@
 - [ ] Unit testing
 - [ ] Return complete chat between two users
 - [ ] Return total count for messages
+- [ ] Implement JWT refresh token
 
 ## Implementation Path
 
