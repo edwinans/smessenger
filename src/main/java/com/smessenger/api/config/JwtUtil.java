@@ -1,4 +1,4 @@
-package com.smessenger.api.util;
+package com.smessenger.api.config;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.Claims;

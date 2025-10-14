@@ -1,6 +1,5 @@
 package com.smessenger.api.config;
 
-import com.smessenger.api.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

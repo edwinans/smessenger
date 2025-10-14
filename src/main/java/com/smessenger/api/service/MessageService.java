@@ -9,6 +9,7 @@ import com.smessenger.api.model.Message;
 import com.smessenger.api.model.User;
 import com.smessenger.api.repository.MessageRepository;
 import com.smessenger.api.repository.UserRepository;
+import com.smessenger.api.config.JwtUtil;
 import com.smessenger.api.dto.MessageDTO;
 
 @Service
@@ -39,7 +40,7 @@ public class MessageService {
   }
 
   public MessageDTO sendMessageByUsername(String authorizationHeader, String receiverUsername, String text) {
-    String senderUsername = com.smessenger.api.util.JwtUtil.extractUsernameFromAuthorizationHeader(authorizationHeader);
+    String senderUsername = JwtUtil.extractUsernameFromAuthorizationHeader(authorizationHeader);
     User sender = userRepository.findByUsername(senderUsername)
         .orElseThrow(() -> new IllegalArgumentException("sender not found"));
     User receiver = userRepository.findByUsername(receiverUsername)
@@ -52,8 +53,7 @@ public class MessageService {
       int limit) {
     User sender = userRepository.findByUsername(senderUsername)
         .orElseThrow(() -> new IllegalArgumentException("sender not found"));
-    String receiverUsername = com.smessenger.api.util.JwtUtil
-        .extractUsernameFromAuthorizationHeader(authorizationHeader);
+    String receiverUsername = JwtUtil.extractUsernameFromAuthorizationHeader(authorizationHeader);
     User receiver = userRepository.findByUsername(receiverUsername)
         .orElseThrow(() -> new IllegalArgumentException("receiver not found"));
     var pageable = PageRequest.of(0, Math.max(1, limit));

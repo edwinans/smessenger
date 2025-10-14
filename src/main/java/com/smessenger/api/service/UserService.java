@@ -9,9 +9,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.smessenger.api.model.User;
 import com.smessenger.api.repository.UserRepository;
 import com.smessenger.api.exception.UsernameAlreadyExistsException;
+import com.smessenger.api.config.JwtUtil;
 import com.smessenger.api.dto.UserDTO;
 import com.smessenger.api.exception.AuthenticationFailedException;
-import com.smessenger.api.util.JwtUtil;
 
 @Service
 public class UserService {
