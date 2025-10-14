@@ -9,7 +9,7 @@
 - [x] Error handling using Exception mapping
 - [x] Request schema validation
 - [ ] Document how to run
-- [ ] Swagger documentation
+- [x] Swagger documentation
 - [ ] Postman collection
 
 ## Evolutions

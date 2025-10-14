@@ -14,6 +14,9 @@
 - Run the database by: `docker compose up -d`
 - Build and run the project by: `mvn spring-boot:run`
 
+## Documentation
+
+- http://localhost:8080/swagger-ui/index.html
 
 ## Architecture
 ---
