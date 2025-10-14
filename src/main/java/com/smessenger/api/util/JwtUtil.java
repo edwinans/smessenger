@@ -3,17 +3,53 @@ package com.smessenger.api.util;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StreamUtils;
+import java.security.MessageDigest;
+
+import jakarta.annotation.PostConstruct;
+
+@Component
 public class JwtUtil {
-    // Use a base64-encoded secret key (should be moved to config in production)
-    private static final String SECRET = "ZmFrZXNlY3JldGtleWZvcmRldmVsb3BtZW50c2VjdXJpdHk="; // base64 for
-                                                                                             // 'fakesecretkeyfordevelopmentsecurity'
-    private static final SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET));
+    private static volatile SecretKey key;
     private static final long EXPIRATION_MS = 86400000; // 1 day
+
+    @Value("${jwt.secret-location}")
+    private Resource secretResource;
+
+    @PostConstruct
+    public void init() {
+        try {
+            String content = StreamUtils
+                    .copyToString(
+                            secretResource.getInputStream(),
+                            java.nio.charset.StandardCharsets.UTF_8)
+                    .trim();
+            if (content.isBlank()) {
+                throw new IllegalStateException("JWT secret file is empty: " + secretResource);
+            }
+            byte[] keyBytes = content.getBytes(StandardCharsets.UTF_8);
+            if (keyBytes.length < 32) {
+                // Force a 32-byte key
+                try {
+                    MessageDigest md = MessageDigest.getInstance("SHA-256");
+                    keyBytes = md.digest(keyBytes);
+                } catch (Exception ex) {
+                    throw new IllegalStateException("Failed to derive JWT key", ex);
+                }
+            }
+            key = Keys.hmacShaKeyFor(keyBytes);
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to load JWT secret from " + secretResource, e);
+        }
+    }
 
     public static String generateToken(String username) {
         Date now = new Date();
