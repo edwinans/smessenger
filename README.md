@@ -9,6 +9,12 @@
    - Either by requesting the last `count` messages
    - Or by requesting recent received messaged since another message
 
+## Run
+
+- Run the database by: `docker compose up -d`
+- Build and run the project by: `mvn spring-boot:run`
+
+
 ## Architecture
 ---
 MVC

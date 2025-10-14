@@ -1,7 +1,7 @@
 # TODO
 
 - [x] H2 in-memory DB
-- [ ] PG DB backend
+- [x] PG DB backend
 - [x] JWT authentification
   - [x] Move hardcoded secrets in a file
 - [x] Extend ~~`PagingAndSortingRepository`~~ (`JpaRepository`) in repository
@@ -18,6 +18,7 @@
 - [ ] Return complete chat between two users
 - [ ] Return total count for messages
 - [ ] Implement JWT refresh token
+- [ ] Use Flyway for better DB management
 
 ## Implementation Path
 
