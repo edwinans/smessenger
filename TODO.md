@@ -3,6 +3,7 @@
 - [x] H2 in-memory DB
 - [ ] PG DB backend
 - [x] JWT authentification
+  - [x] Move hardcoded secrets in a file
 - [x] Extend ~~`PagingAndSortingRepository`~~ (`JpaRepository`) in repository
 - [x] Model: Use @Id, @GeneratedValue, @Columns
 - [x] Error handling using Exception mapping
