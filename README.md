@@ -75,9 +75,12 @@ http://localhost:8080/h2-console
   - Application listens on port 8080 by default
   - Ensure the database container is healthy before starting the app (check `docker logs` or `docker compose ps`).
 
-## Documentation
+## Documentation and testing
 
 - http://localhost:8080/swagger-ui/index.html
+
+- Two test users are preloaded in the database: `user1` and `user2` (password: `pass`).
+  Sample messages from `user2` to `user1` are included. Use these accounts to start testing.
 
 ## API Architecture
 ---
