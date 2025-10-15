@@ -35,13 +35,13 @@ public class MessageController {
   }
 
   // GET /messages/from/{senderUsername}?before_id=&limit=
-  @GetMapping("/messages/from/{senderUsername}")
+  @GetMapping("/messages/from/{sender_username}")
   public ResponseEntity<List<MessageDTO>> getRecentFromSender(
       @RequestHeader(name = "Authorization", required = false) String authorization,
-      @PathVariable String senderUsername,
+      @PathVariable String sender_username,
       @RequestParam(name = "before_id", required = false) Long beforeId,
       @RequestParam(name = "limit", required = false, defaultValue = "5") int limit) {
-    List<MessageDTO> msgs = messageService.getRecentFromSender(authorization, senderUsername, beforeId, limit);
+    List<MessageDTO> msgs = messageService.getRecentFromSender(authorization, sender_username, beforeId, limit);
     return ResponseEntity.ok(msgs);
   }
 
