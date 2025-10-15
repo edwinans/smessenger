@@ -8,11 +8,13 @@
 - [x] Model: Use @Id, @GeneratedValue, @Columns
 - [x] Error handling using Exception mapping
 - [x] Request schema validation
-- [ ] Pass DB credentials using env vars
-- [ ] Document how to run
+- [x] Document how to run
 - [x] Swagger documentation
+- [x] Produce smessenger.jar
+- [ ] Dockerize the app
+- [ ] Pass DB credentials using env vars
 - [ ] Postman collection
-- [ ] Produce smessenger.jar
+- [ ] Improve javadoc and swagger documentation
 
 ## Evolutions
 
