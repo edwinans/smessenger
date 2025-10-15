@@ -38,6 +38,8 @@
      docker compose down
      ```
 
+For a package build from scratch: `./mvnw clean install`
+
 - Notes
   - If you prefer system Maven, replace `./mvnw` with `mvn`.
   - Application listens on port 8080 by default
