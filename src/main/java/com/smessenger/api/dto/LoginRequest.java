@@ -1,4 +1,8 @@
 package com.smessenger.api.dto;
 
-public record LoginRequest(String username, String password) {
+import io.swagger.v3.oas.annotations.media.Schema;
+
+public record LoginRequest(
+    @Schema(example = "user1") String username,
+    @Schema(example = "pass") String password) {
 }
