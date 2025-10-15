@@ -19,6 +19,8 @@
 - Required
   - Java 25 (JDK). Verify: `java -version`
   - Docker and docker-compose
+- Optional
+  - Makefile
 
 ### Quick start
   1. Start the PostgresSQL database:
@@ -40,6 +42,15 @@
      ```sh
      docker compose down
      ```
+
+  Convenience: all of the above commands are also available via `make` (see [Makefile](./Makefile)). Common targets:
+
+  - `make pg_up`: start PostgreSQL container
+  - `make pg_down`: stop PostgreSQL container
+  - `make run`: run app in `prod` profile
+  - `make dev`: run app in `dev` profile
+  - `make package` and `make run_jar`: produce and run `smessenger.jar`
+
 
 ### Run in dev mode (in-memory H2 database)
 
