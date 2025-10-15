@@ -13,13 +13,15 @@
 
 ## Run
 
+### System requirements
+
 - Tested on: Ubuntu 24.04
 - Required
   - Java 25 (JDK). Verify: `java -version`
   - Docker and docker-compose
 
-- Quick start
-  1. Start the database:
+### Quick start
+  1. Start the PostgresSQL database:
      ```sh
      docker compose up -d
      ```
@@ -33,12 +35,29 @@
      ./mvnw package
      java -jar target/smessenger.jar
      ```
+     *To build the package from scratch: `./mvnw clean install`*
   3. Stop the database:
      ```sh
      docker compose down
      ```
 
-For a package build from scratch: `./mvnw clean install`
+### Run in dev mode (in-memory H2 database)
+
+If you want to run the application using an in-memory H2 database for local development, start the app with the `dev` Spring profile. This will load `application-dev.properties` which configures H2.
+
+```sh
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+```
+
+#### H2 console
+
+The H2 web console is enabled in the `dev` profile at:
+
+http://localhost:8080/h2-console
+
+- JDBC URL: `jdbc:h2:mem:testdb`
+- Username: `sa`
+- Password: (leave blank)
 
 - Notes
   - If you prefer system Maven, replace `./mvnw` with `mvn`.
@@ -49,7 +68,7 @@ For a package build from scratch: `./mvnw clean install`
 
 - http://localhost:8080/swagger-ui/index.html
 
-## Architecture
+## API Architecture
 ---
 MVC
 ---

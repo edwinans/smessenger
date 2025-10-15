@@ -11,6 +11,7 @@
 - [x] Document how to run
 - [x] Swagger documentation
 - [x] Produce smessenger.jar
+- [x] Seperate prod and dev envs
 - [ ] Dockerize the app
 - [ ] Pass DB credentials using env vars
 - [ ] Postman collection
