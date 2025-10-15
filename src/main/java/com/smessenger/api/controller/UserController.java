@@ -44,7 +44,7 @@ public class UserController {
     return ResponseEntity.ok(users);
   }
 
-  @GetMapping("/test_exp")
+  @GetMapping("/test_exception")
   public String textExp() {
     throw new CustomException("Custom exception test");
   }
