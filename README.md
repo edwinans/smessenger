@@ -72,7 +72,7 @@ http://localhost:8080/h2-console
 
 - Notes
   - If you prefer system Maven, replace `./mvnw` with `mvn`.
-  - Application listens on port 8080 by default
+  - Application listens on localhost port 8080 by default
   - Ensure the database container is healthy before starting the app (check `docker logs` or `docker compose ps`).
 
 ## Documentation and testing
