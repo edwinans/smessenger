@@ -13,9 +13,9 @@
 - [x] Produce smessenger.jar
 - [x] Seperate prod and dev envs
 - [x] Add Makefile
+- [x] Postman collection
 - [ ] Dockerize the app
 - [ ] Pass DB credentials using env vars
-- [ ] Postman collection
 - [ ] Improve javadoc and swagger documentation
 
 ## Evolutions
