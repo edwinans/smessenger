@@ -14,17 +14,17 @@
 - [x] Seperate prod and dev envs
 - [x] Add Makefile
 - [x] Postman collection
-- [ ] Dockerize the app
 - [ ] Pass DB credentials using env vars
-- [ ] Improve javadoc and swagger documentation
 
 ## Evolutions
 
+- [ ] Dockerize the app
 - [ ] Unit testing
 - [ ] Return complete chat between two users
 - [ ] Return total count for messages
 - [ ] Implement JWT refresh token
 - [ ] Use Flyway for better DB management
+- [ ] Improve javadoc and swagger documentation
 
 ## Implementation Path
 
