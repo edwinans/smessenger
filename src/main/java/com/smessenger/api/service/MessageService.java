@@ -26,7 +26,6 @@ public class MessageService {
   public Message sendMessage(Long senderId, Long receiverId, String text) {
     User receiver = userRepository.findById(receiverId)
         .orElseThrow(() -> new IllegalArgumentException("receiver not found"));
-    // sender existence is assumed; you may validate if needed
     Message m = new Message(senderId, receiver.getId(), text);
     return messageRepository.save(m);
   }
